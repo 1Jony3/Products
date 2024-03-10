@@ -3,9 +3,13 @@ package com.example.products.screen
 import android.os.Bundle
 import android.util.Log.d
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.products.R
 import com.example.products.databinding.FragmentListProductsBinding
@@ -35,6 +39,8 @@ class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
 
         setupAdapter()
         loadData()
+
+
     }
 
     private fun setupAdapter() {
@@ -47,6 +53,15 @@ class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
                 2, StaggeredGridLayoutManager.VERTICAL
             )
             setHasFixedSize(true)
+        }
+
+        productAdapter.addLoadStateListener { state: CombinedLoadStates ->
+            val refreshSTate = state.refresh
+            binding.list.isVisible = refreshSTate != LoadState.Loading
+            binding.progress.isVisible = refreshSTate == LoadState.Loading
+            if (refreshSTate is LoadState.Error){
+                Toast.makeText(context, refreshSTate.error.localizedMessage, Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
