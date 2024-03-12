@@ -18,9 +18,9 @@
 ____
 ## Главный экран
 ![photo_2024-03-13_02-46-28](https://github.com/1Jony3/Products/assets/90905407/827afe96-758f-45ea-ad88-3186b1252e48)
-## Поиск
-![photo_2024-03-13_02-46-28 (2)](https://github.com/1Jony3/Products/assets/90905407/a02fb70a-eabb-47b6-8192-bc26bcfc2e95)
 ## Детальная информация
 ![photo_2024-03-13_02-46-28 (3)](https://github.com/1Jony3/Products/assets/90905407/c1f4ea01-c60c-4c02-b502-66ff4622edc9)
 ## Горизонтальная ориентация
 ![photo_2024-03-13_02-46-28 (4)](https://github.com/1Jony3/Products/assets/90905407/793db1ab-07dd-4c92-bbf5-104fcd307757)
+## Поиск
+![photo_2024-03-13_02-46-28 (2)](https://github.com/1Jony3/Products/assets/90905407/a02fb70a-eabb-47b6-8192-bc26bcfc2e95)
