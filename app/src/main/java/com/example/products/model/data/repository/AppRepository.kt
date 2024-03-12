@@ -21,4 +21,6 @@ class AppRepository @Inject constructor(
         ).flow
     }
 
+    override suspend fun getProduct(id: String) = products.getProduct(id)
+
 }

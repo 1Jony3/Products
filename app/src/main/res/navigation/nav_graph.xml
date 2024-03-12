@@ -8,6 +8,20 @@
     <fragment
         android:id="@+id/listProductsFragment"
         android:name="com.example.products.screen.ListProductsFragment"
-        android:label="fragment_list_products"
-        tools:layout="@layout/fragment_list_products" />
+        android:label="Products"
+        tools:layout="@layout/fragment_list_products" >
+        <action
+            android:id="@+id/action_listProductsFragment_to_detailsProductFragment"
+            app:destination="@id/detailsProductFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsProductFragment"
+        android:name="com.example.products.screen.DetailsProductFragment"
+        android:label="{rating}"
+        tools:layout="@layout/fragment_details_product">
+        <argument
+            android:name="rating"
+            app:argType="string" />
+    </fragment>
 </navigation>

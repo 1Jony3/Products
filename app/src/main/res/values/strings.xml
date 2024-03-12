@@ -13,4 +13,6 @@
     <string name="load_error">load error</string>
     <string name="try_again">try again</string>
     <string name="search_by">search by</string>
+    <string name="price">price</string>
+    <string name="category">category</string>
 </resources>

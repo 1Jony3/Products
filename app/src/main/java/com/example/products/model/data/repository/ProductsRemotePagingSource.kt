@@ -25,9 +25,7 @@ class ProductsRemotePagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         val position = params.key ?: 0
         return try {
-            val product = productAPI.getProduct(position.toString())
-            d("lol", "load  ProductsRemotePagingSource : ${product.products}")
-            d("lol", "skip $position limit 20")
+            val product = productAPI.getProducts(position.toString())
             val nextKey = if (product.products.isEmpty()) {
                 null
             } else {

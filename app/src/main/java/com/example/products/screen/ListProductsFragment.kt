@@ -1,23 +1,19 @@
 package com.example.products.screen
 
 import android.os.Bundle
-import android.os.Message
 import android.util.Log.d
 import android.view.View
-import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.products.R
 import com.example.products.databinding.FragmentListProductsBinding
 import com.example.products.model.adapter.DefaultLoadStateAdapter
+import com.example.products.model.adapter.OnClickProductListener
 import com.example.products.model.adapter.ProductAdapter
 import com.example.products.model.adapter.TryAgainAction
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +29,11 @@ class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
     private lateinit var adapter: ProductAdapter
     private lateinit var mainLoadStateHolder: DefaultLoadStateAdapter.Holder
     private lateinit var binding: FragmentListProductsBinding
+
+    companion object{
+        const val ARG_RATING = "rating"
+        const val ARG_ID = "id"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +52,11 @@ class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
 
     private fun setupAdapter(view: View) {
 
-        adapter = ProductAdapter()
+        adapter = ProductAdapter(object : OnClickProductListener {
+            override fun onClick(rating: String, id: Int) {
+                openDetails("$rating/5 rating", id)
+            }
+        })
 
         val tryAgainAction: TryAgainAction = { adapter.retry() }
         val footerAdapter = DefaultLoadStateAdapter(tryAgainAction)
@@ -94,11 +99,10 @@ class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
     }
 
 
-    /*private fun openDetails(repoName: String){
+    private fun openDetails(rating: String, id: Int){
         d("lol", "nn details - ${findNavController().currentDestination}")
         findNavController().navigate(
-            R.id.action_repositoriesListFragment_to_detailsFragment,
-            bundleOf(ARG_REPO_NAME to repoName)
-        )
-    }*/
+            R.id.action_listProductsFragment_to_detailsProductFragment,
+            bundleOf(ARG_RATING to rating, ARG_ID to id))
+    }
 }
