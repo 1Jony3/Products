@@ -28,7 +28,6 @@ class DetailsProductFragment : Fragment(R.layout.fragment_details_product) {
     ): View {
         binding = FragmentDetailsProductBinding.inflate(inflater, container, false)
         val idProduct = requireArguments().getInt(ARG_ID)
-        d("lol", "id -> $idProduct")
         viewModel.getProduct(idProduct)
         val holder = DetailsProductHolder(binding)
 

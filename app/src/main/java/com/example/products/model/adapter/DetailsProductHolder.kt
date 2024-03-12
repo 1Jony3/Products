@@ -11,8 +11,8 @@ class DetailsProductHolder(private val binding: FragmentDetailsProductBinding) {
     fun bind(product: Product) {
         with(binding){
             categoryTV.text =  product.category
-            titleTV.text = "★ ${product.brand} ${product.title}"
-            priceTV.text = product.price.toString()
+            titleTV.text = "${product.brand} ${product.title}"
+            priceTV.text = "${product.price} price"
             descriptionTV.text = product.description
             if (product.thumbnail.isNotBlank()) {
                 Glide.with(productIV.context)

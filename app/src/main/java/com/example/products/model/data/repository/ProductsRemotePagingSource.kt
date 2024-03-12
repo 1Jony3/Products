@@ -12,7 +12,8 @@ import javax.inject.Singleton
 
 @Singleton
 class ProductsRemotePagingSource @Inject constructor(
-    private val productAPI: IProductAPI
+    private val productAPI: IProductAPI,
+    private val searchBy: String
     ) : PagingSource<Int, Product>()
 {
     override fun getRefreshKey(state: PagingState<Int, Product>): Int? {
@@ -25,7 +26,7 @@ class ProductsRemotePagingSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Product> {
         val position = params.key ?: 0
         return try {
-            val product = productAPI.getProducts(position.toString())
+            val product = productAPI.getSearchBy(skip = position.toString(), q = searchBy)
             val nextKey = if (product.products.isEmpty()) {
                 null
             } else {

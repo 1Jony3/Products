@@ -16,20 +16,28 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flatMapLatest
 
 @HiltViewModel
-class ListProductsViewModel @Inject constructor(repository: Repository) : ViewModel(){
+class ListProductsViewModel @Inject constructor(val repository: Repository) : ViewModel(){
 
     var listData: Flow<PagingData<Product>>
-    private val searchBy = MutableLiveData("")
+    private val searchBy= MutableLiveData("")
 
     init {
-        d("lol", "initListFrVM")
-        listData = searchBy.asFlow()
+        listData = getProducts()
+    }
+    private fun getProducts() = searchBy.asFlow()
             .debounce(500)
             .flatMapLatest {
-                repository.getPagedProducts()
+                repository.getPagedSearchBy(it)
             }
             .cachedIn(viewModelScope)
 
+    fun setSearchBy(value: String) {
+        if (this.searchBy.value == value) return
+        this.searchBy.postValue(value)
+        listData = getProducts()
+    }
+    fun refresh() {
+        this.searchBy.postValue(this.searchBy.value)
     }
 
 }

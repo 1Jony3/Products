@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/product_CV"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        app:cardCornerRadius="4dp"
-        android:layout_margin="5dp"
-        android:elevation="10dp"
+        android:layout_margin="16dp"
         android:contentDescription="@string/content_description_media"
+        android:elevation="10dp"
+        app:cardCornerRadius="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,32 +20,33 @@
             android:id="@+id/product_IV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/thumbnail"
             android:scaleType="centerCrop"
-            />
+            app:srcCompat="@drawable/thumbnail" />
     </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/title_TV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed"
+        android:maxLines="2"
+        android:minLines="2"
+        android:singleLine="false"
         android:textAppearance="?attr/textAppearanceHeadline6"
         android:textSize="24sp"
-        android:minLines="2"
-        android:maxLines="2"
-        android:fontFamily="sans-serif-condensed"
-        android:singleLine="false"
-        android:layout_marginStart="16dp"
-        android:ellipsize="end"
-        app:layout_constraintTop_toTopOf="@id/product_CV"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/product_CV"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/product_CV" />
 
     <TextView
         android:id="@+id/description_TV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginTop="12dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif-condensed"
@@ -63,14 +64,16 @@
         android:id="@+id/barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="product_CV,description_TV"
-        app:barrierDirection="bottom"/>
+        android:layout_margin="16dp"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="product_CV,description_TV" />
+
     <View
         android:id="@+id/separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/purple_500"
+        android:layout_margin="16dp"
+        android:background="?attr/colorOnSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
