@@ -24,7 +24,6 @@ class ListProductsViewModel @Inject constructor(repository: Repository) : ViewMo
     init {
         d("lol", "initListFrVM")
         listData = searchBy.asFlow()
-            // if user types text too quickly -> filtering intermediate values to avoid excess loads
             .debounce(500)
             .flatMapLatest {
                 repository.getPagedProducts()

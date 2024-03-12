@@ -39,7 +39,6 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <!-- Title, secondary and supporting text -->
             <TextView
                 android:id="@+id/title_TV"
                 android:layout_width="wrap_content"
@@ -70,8 +69,5 @@
                 />
 
         </LinearLayout>
-
-
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

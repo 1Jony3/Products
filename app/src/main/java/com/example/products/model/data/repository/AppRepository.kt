@@ -12,8 +12,6 @@ import javax.inject.Singleton
 @Singleton
 class AppRepository @Inject constructor(
     private val products: IProductAPI): Repository {
-
-
     override suspend fun getPagedProducts(): Flow<PagingData<Product>> {
         return Pager(config = PagingConfig(
                 pageSize = 20,

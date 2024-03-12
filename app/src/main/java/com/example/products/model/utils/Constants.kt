@@ -1,5 +1,5 @@
 package com.example.products.model.utils
 
 object Constants {
-    const val PAGE_SIZE: Int = 20
+    const val PAGE_SIZE: Int = 2
 }

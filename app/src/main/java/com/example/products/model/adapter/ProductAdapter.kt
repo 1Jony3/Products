@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.products.R
-import com.example.products.databinding.ItemProdectBinding
+import com.example.products.databinding.ItemProductBinding
 import com.example.products.model.data.entities.Product
 
 class ProductAdapter : PagingDataAdapter<Product, ProductAdapter.Holder>(ProductsDiffCallback()) {
@@ -24,7 +24,7 @@ class ProductAdapter : PagingDataAdapter<Product, ProductAdapter.Holder>(Product
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemProdectBinding.inflate(inflater, parent, false)
+        val binding = ItemProductBinding.inflate(inflater, parent, false)
         return Holder(binding)
     }
 
@@ -43,7 +43,7 @@ class ProductAdapter : PagingDataAdapter<Product, ProductAdapter.Holder>(Product
         }
     }
 
-    class Holder(val binding: ItemProdectBinding) : RecyclerView.ViewHolder(binding.root)
+    class Holder(val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root)
 
 }
 

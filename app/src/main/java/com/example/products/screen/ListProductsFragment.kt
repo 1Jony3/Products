@@ -1,6 +1,7 @@
 package com.example.products.screen
 
 import android.os.Bundle
+import android.os.Message
 import android.util.Log.d
 import android.view.View
 import android.widget.Toast
@@ -10,19 +11,27 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.products.R
 import com.example.products.databinding.FragmentListProductsBinding
+import com.example.products.model.adapter.DefaultLoadStateAdapter
 import com.example.products.model.adapter.ProductAdapter
+import com.example.products.model.adapter.TryAgainAction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
 
     private val viewModel by viewModels<ListProductsViewModel>()
-    private lateinit var productAdapter: ProductAdapter
+    private lateinit var adapter: ProductAdapter
+    private lateinit var mainLoadStateHolder: DefaultLoadStateAdapter.Holder
     private lateinit var binding: FragmentListProductsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,42 +45,49 @@ class ListProductsFragment : Fragment(R.layout.fragment_list_products) {
         d("lol", "onViewCreated userListFragment")
 
         binding = FragmentListProductsBinding.bind(view)
-
-        setupAdapter()
-        loadData()
-
-
+        setupAdapter(view)
+        observeProducts()
     }
 
-    private fun setupAdapter() {
+    private fun setupAdapter(view: View) {
 
-        productAdapter = ProductAdapter()
+        adapter = ProductAdapter()
+
+        val tryAgainAction: TryAgainAction = { adapter.retry() }
+        val footerAdapter = DefaultLoadStateAdapter(tryAgainAction)
+        val adapterWithLoadState = adapter.withLoadStateFooter(footerAdapter)
 
         binding.list.apply {
-            adapter = productAdapter
-            layoutManager = StaggeredGridLayoutManager(
-                2, StaggeredGridLayoutManager.VERTICAL
-            )
+            adapter = adapterWithLoadState
+            layoutManager = LinearLayoutManager(view.context)
             setHasFixedSize(true)
+            (itemAnimator as? DefaultItemAnimator)?.supportsChangeAnimations = false
         }
 
-        productAdapter.addLoadStateListener { state: CombinedLoadStates ->
-            val refreshSTate = state.refresh
-            binding.list.isVisible = refreshSTate != LoadState.Loading
-            binding.progress.isVisible = refreshSTate == LoadState.Loading
-            if (refreshSTate is LoadState.Error){
-                Toast.makeText(context, refreshSTate.error.localizedMessage, Toast.LENGTH_SHORT).show()
-            }
-        }
+        mainLoadStateHolder = DefaultLoadStateAdapter.Holder(
+            binding.loadStateView,
+            binding.swipeRefreshLayout,
+            tryAgainAction
+        )
+        observeLoadState()
 
     }
 
-    private fun loadData() {
+    private fun observeLoadState() {
+        lifecycleScope.launch {
+            adapter.loadStateFlow.debounce(200).collectLatest { state ->
+                // main indicator in the center of the screen
+                mainLoadStateHolder.bind(state.refresh)
+            }
+        }
+    }
+
+    private fun observeProducts() {
         lifecycleScope.launch {
             viewModel.listData.collectLatest {
                 d("lol", "loadData: $it")
-                productAdapter.submitData(it)
-                d("lol", "adapter ${productAdapter.itemCount}")
+                adapter.submitData(it)
+                d("lol", "adapter ${adapter.itemCount}")
             }
 
         }
